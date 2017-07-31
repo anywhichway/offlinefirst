@@ -1,0 +1,28 @@
+{
+  "name": "offlinefirst",
+  "version": "0.0.1",
+  "description": "Offline first storage using Web Storage API that automatically synchronizes with server storage",
+  "engines": {},
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "mocha test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anywhichway/offlinefirst.git"
+  },
+  "keywords": [
+    "filestore, database, key-value, localstorage, webstorage, storage, offline, indexedDB"
+  ],
+  "author": "Simon Y. Blackwell <syblackwell@anywhichway.com> (http://www.github.com/anywhichway)",
+  "bugs": {
+    "url": "https://github.com/anywhichway/offlinefirst/issues"
+  },
+  "homepage": "https://github.com/anywhichway/offlinefirst#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "mocha": "^3.4.2"
+  }
+}

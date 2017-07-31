@@ -1,2 +1,6 @@
 # offlinefirst
-Offline first storage using Web Storage API that automatically synchronizes with server storage
+Offline first IndexedDB storage providing async version of Web Storage API that automatically synchronizes with server storage
+
+# Release History (reverse chronological order)
+
+v0.0.1 2017-07-31 ALPHA Initial public release
