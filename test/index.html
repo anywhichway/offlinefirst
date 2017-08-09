@@ -1,25 +1,73 @@
 <html>
 <head>
+<script src="../node_modules/localdbstore/index.js"></script>
+<script src="../node_modules/remotestore/index.js"></script>
+<script src="../node_modules/ovid/index.js"></script>
 <script src="../index.js"></script>
 </head>
 <body>
 <script>
-const db = new OffLineFirst("test","http://localhost:3000",{clear:true}); // ,
 
-db.setItem("test",JSON.stringify({item:"test"})).then(() => {
-	db.removeItem("test").then(() => {
-		console.log("removed");
-	})
-	db.getItem("test").then((data) => {
+
+const ovid = new Ovid({algorithm:"mergePropertyMostRecentMaxVersion",history:true}),
+o1 = {item:1,deleted:1}, //item:1,
+o2 = {item:2,added:1}, //item:2,
+o3 = {item:3}, // 
+id = ovid.uuidv4(),
+now = Date.now();
+ovid.baseline(o1,id,now,1);
+ovid.baseline(o2,id,now+1,2);
+ovid.baseline(o3,id,now+2,3);
+console.log(ovid.delta(o1,o2,true,true));
+const v0 = JSON.stringify(o1._);
+ovid.mediate(o1,o2);
+const v1 = JSON.stringify(o1._);
+//console.log(JSON.stringify(o1),v1);
+ovid.mediate(o1,o3);
+const v2 = JSON.stringify(o1._);
+//console.log(JSON.stringify(o1),v2);
+ovid.revert(o1);
+const v3 = JSON.stringify(o1._);
+ovid.revert(o1);
+const v4 = JSON.stringify(o1._);
+console.log(v0);
+console.log(v1);
+console.log(v2);
+console.log(v3);
+console.log(v4);
+console.log(v3===v1);
+console.log(v4===v0);
+
+const local = new LocalDBStore("test",{clear:false}),
+	remote = new RemoteStore("http://localhost:3000"),
+	db = new OffLineFirst(null,remote,{clear:false,keyPath:"_.#",version:true,versionManager:ovid}); // ,"http://localhost:3000"
+
+const o = {item:"test"};
+Object.defineProperty(o,"_",{enumerable:false,configurable:true,writable:true,value:{"#":"test"}});
+db.putItem(o).then(() => {
+	const id = o._["#"];
+	db.getItem(id).then((data) => {
 		console.log(data);
+		db.count().then((count) => {
+			console.log(count);
+			db.removeItem(id).then(() => {
+				console.log("removed");
+				db.getItem(id,true).then((data) => {
+					console.log(data);
+				});
+				db.count().then((count) => {
+					console.log(count);
+				})
+			})
+		});
 	});
-	db.getItem("test",true).then((data) => {
-		console.log(data);
-	});
-	db.count().then((count) => {
-		console.log(count);
-	})
+	
 });
+db.put({item:"offline"});
+
+
+
+
 </script>
 </body>
 </html>

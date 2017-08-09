@@ -1,6 +1,6 @@
 {
   "name": "offlinefirst",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Offline first storage using Web Storage API that automatically synchronizes with server storage",
   "engines": {},
   "license": "MIT",
@@ -20,9 +20,13 @@
     "url": "https://github.com/anywhichway/offlinefirst/issues"
   },
   "homepage": "https://github.com/anywhichway/offlinefirst#readme",
-  "dependencies": {},
+  "dependencies": {
+    "localdbstore": "0.0.1",
+    "remotestore": "0.0.8"
+  },
   "devDependencies": {
-    "chai": "^4.1.0",
-    "mocha": "^3.4.2"
+    "chai": "^4.1.1",
+    "mocha": "^3.5.0",
+    "ovid": "0.0.1"
   }
 }
